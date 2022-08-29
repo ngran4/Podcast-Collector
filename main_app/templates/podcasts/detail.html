@@ -10,6 +10,11 @@
     <p>Hosts: {{ podcast.hosts }}</p>
     <p>Rating: {{ podcast.rating }}</p>
   </div>
+
+  <div class="card-action">
+    <a href="{% url 'podcasts_update' podcast.id %}">Edit</a>
+    <a href="{% url 'podcasts_delete' podcast.id %}">Delete</a>
+  </div>
 </div>
 
 {% endblock %}
