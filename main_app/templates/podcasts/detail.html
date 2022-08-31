@@ -53,6 +53,12 @@
               <span style="color:plum">{{ guest.name }}</span>, {{ guest.occupation }}
             </span>
           </div>
+          <div class="card-action">
+            <form action="{% url 'remove_guest' podcast.id guest.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn">Remove Guest</button>
+            </form>
+          </div>
         </div>
       {% endfor %}
     {% else %}

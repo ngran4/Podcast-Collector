@@ -32,6 +32,10 @@ def assoc_guest(request, podcast_id, guest_id):
   Podcast.objects.get(id=podcast_id).guests.add(guest_id) # ** Can pass a guest's id instead of the whole object!
   return redirect('detail', podcast_id=podcast_id)
 
+def remove_guest(request, podcast_id, guest_id):
+  Podcast.objects.get(id=podcast_id).guests.remove(guest_id)
+  return redirect('detail', podcast_id=podcast_id)
+
 def add_episode(request, podcast_id): # podcast_id is from urls.py in params for this function
   # Create a ModelForm instance using the data in request.POST
   form = EpisodeForm(request.POST)

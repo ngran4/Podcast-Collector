@@ -13,6 +13,7 @@ urlpatterns = [
   path('podcasts/<int:podcast_id>/add_episode/', views.add_episode, name='add_episode'),
   # Associate a guest with a podcast (M:M)
   path('podcasts/<int:podcast_id>/assoc_guest/<int:guest_id>/', views.assoc_guest, name='assoc_guest'),
+  path('podcasts/<int:podcast_id>/remove_guest/<int:guest_id>/', views.remove_guest, name='remove_guest'),
   path('guests/', views.GuestList.as_view(), name='guests_index'),
   path('guests/<int:pk>/', views.GuestDetail.as_view(), name='guests_detail'),
   path('guests/create/', views.GuestCreate.as_view(), name='guests_create'),
