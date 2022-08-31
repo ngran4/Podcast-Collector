@@ -1,19 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # Import create view
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # Import model
 from .models import Podcast
+# Import EpisodeForm
+from .forms import EpisodeForm
 
 from django.http import HttpResponse
-
-# podcasts = [
-#   Podcast('Pod Save America', 'Politics', 'Dan Pfeiffer, Jon Favreau, Jon Lovett, Tommy Vietor', 4.5),
-#   Podcast('RedHanded', 'True Crime', 'Hannah Maguire, Suruthi Bala', 4.7),
-#   Podcast('Girls Gotta Eat', 'Comedy', 'Ashley Hesseltine, Rayna Greenburg', 4.7),
-#   Podcast('Gola', 'Food & Culture', 'Katie Parla, Danielle Callegari', 4.9),
-#   Podcast('Conflicted', 'History', 'Aimen Dean, Thomas Small', 4.8)
-# ]
-
 
 # Define views
 def home(request):
@@ -26,9 +19,22 @@ def podcasts_index(request):
   podcasts = Podcast.objects.all()
   return render(request, 'podcasts/index.html', { 'podcasts': podcasts })
 
-def podcasts_detail(request, podcast_id):
+def podcasts_detail(request, podcast_id): # podcast_id is coming from urls.py (path('podcasts/<int:podcast_id>/...))
   podcast = Podcast.objects.get(id=podcast_id)
-  return render(request, 'podcasts/detail.html', { 'podcast': podcast })
+  # instantiate the episode form to be rendered in the template (creating an obkect from the class in forms.py)
+  episode_form = EpisodeForm()
+  return render(request, 'podcasts/detail.html', { 'podcast': podcast, 'episode_form': episode_form })
+
+def add_episode(request, podcast_id): # podcast_id is from urls.py in params for this function
+  # Create a ModelForm instance using the data in request.POST
+  form = EpisodeForm(request.POST)
+  # Validate form
+  if form.is_valid():
+    new_episode = form.save(commit=False)
+    # we are creating an object to save to the db, BUT don't save it yet bc we need to add podcast_id
+    new_episode.podcast_id = podcast_id
+    new_episode.save() # saves the feeding to the DB
+  return redirect('detail', podcast_id=podcast_id) # diff bw this and render from podcasts_detail, is THIS is a *kwarg, the latter is a dict
 
 class PodcastCreate(CreateView):
   model = Podcast
