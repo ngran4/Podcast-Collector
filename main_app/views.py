@@ -21,9 +21,16 @@ def podcasts_index(request):
 
 def podcasts_detail(request, podcast_id): # podcast_id is coming from urls.py (path('podcasts/<int:podcast_id>/...))
   podcast = Podcast.objects.get(id=podcast_id)
+  # Get the guests the podcast doesn't have
+  # id__in syntax is called a field lookup (get, exclude or filter)
+  guests_podcast_doesnt_have = Guest.objects.exclude(id__in = podcast.guests.all().values_list('id'))
   # instantiate the episode form to be rendered in the template (creating an obkect from the class in forms.py)
   episode_form = EpisodeForm()
-  return render(request, 'podcasts/detail.html', { 'podcast': podcast, 'episode_form': episode_form })
+  return render(request, 'podcasts/detail.html', { 'podcast': podcast, 'episode_form': episode_form, 'guests': guests_podcast_doesnt_have })
+
+def assoc_guest(request, podcast_id, guest_id):
+  Podcast.objects.get(id=podcast_id).guests.add(guest_id) # ** Can pass a guest's id instead of the whole object!
+  return redirect('detail', podcast_id=podcast_id)
 
 def add_episode(request, podcast_id): # podcast_id is from urls.py in params for this function
   # Create a ModelForm instance using the data in request.POST

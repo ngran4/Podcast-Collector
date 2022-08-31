@@ -18,6 +18,8 @@ class Podcast(models.Model): # <- inheriting from models.Model class, gives our 
   genre = models.CharField(max_length=100)
   hosts = models.TextField(max_length=250)
   rating = models.FloatField()
+  # Add the M:M relationship
+  guests = models.ManyToManyField(Guest)
 
   # this function will get called on a create or update on a Class Based View in order to redirect the user
   def get_absolute_url(self):
