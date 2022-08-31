@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect
 # Import create view
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 # Import model
-from .models import Podcast
+from .models import Podcast, Guest
 # Import EpisodeForm
 from .forms import EpisodeForm
 
-from django.http import HttpResponse
 
 # Define views
 def home(request):
-  return HttpResponse('<h1>yoohoo</h1>')
+  return render(request, 'home.html')
 
 def about(request):
   return render(request, 'about.html')
@@ -50,3 +50,13 @@ class PodcastUpdate(UpdateView):
 class PodcastDelete(DeleteView):
   model = Podcast
   success_url = '/podcasts/' # We define this, bc the get_absolute_url is going to the detail page, which wouldn't exist anymore
+
+class GuestList(ListView):
+  model = Guest
+
+class GuestDetail(DetailView):
+  model = Guest
+
+class GuestCreate(CreateView):
+  model = Guest
+  fields = '__all__'
