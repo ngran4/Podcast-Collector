@@ -10,6 +10,10 @@
         <span class="card-title">{{ guest.name }}</span>
         <p>Occupation: {{ guest.occupation }}</p>
       </div>
+      <div class="card-action">
+        <a href="{% url 'guests_update' guest.id %}">Edit</a>
+        <a href="{% url 'guests_delete' guest.id %}">Delete</a>
+      </div>
     </div>
   </div>
 </div>

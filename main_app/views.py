@@ -60,3 +60,11 @@ class GuestDetail(DetailView):
 class GuestCreate(CreateView):
   model = Guest
   fields = '__all__'
+
+class GuestUpdate(UpdateView):
+  model = Guest
+  fields = ['name', 'occupation']
+
+class GuestDelete(DeleteView):
+  model = Guest
+  success_url = '/guests/'

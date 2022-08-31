@@ -14,4 +14,6 @@ urlpatterns = [
   path('guests/', views.GuestList.as_view(), name='guests_index'),
   path('guests/<int:pk>/', views.GuestDetail.as_view(), name='guests_detail'),
   path('guests/create/', views.GuestCreate.as_view(), name='guests_create'),
+  path('guests/<int:pk>/update/', views.GuestUpdate.as_view(), name='guests_update'),
+  path('guests/<int:pk>/delete/', views.GuestDelete.as_view(), name='guests_delete'),
 ]
